@@ -1,0 +1,6 @@
+first_name,last_name,date_of_birth,nationality,email,phone_number,passport_number
+John,Smith,1985-03-12,American,john.smith@example.com,+1-202-555-0143,US1234567
+Maria,Garcia,1990-07-25,Spanish,maria.garcia@example.com,+34-600-123-456,ES9876543
+Wei,Chen,1978-11-02,Chinese,wei.chen@example.com,+86-138-0013-8000,CN5551234
+Amara,Okafor,1995-01-30,Nigerian,amara.okafor@example.com,+234-802-345-6789,NG7654321
+Priya,Patel,1988-09-14,Indian,priya.patel@example.com,+91-98765-43210,IN4443332
