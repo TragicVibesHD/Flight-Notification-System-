@@ -1,4 +1,4 @@
-import { Service } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Auth } from './auth';
@@ -48,9 +48,9 @@ export interface SendNotificationPayload {
 
 @Service()
 export class Api {
+  private http = inject(HttpClient);
+  private auth = inject(Auth);
   private apiUrl = 'http://127.0.0.1:8080/api';
-
-  constructor(private http: HttpClient, private auth: Auth) {}
 
   private authHeaders(): HttpHeaders {
     return new HttpHeaders({
