@@ -1,3 +1,5 @@
+Here is the first test commit to ensure the envi is set up and working correctly
+
 ![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
 
 # Flask MVC Template
