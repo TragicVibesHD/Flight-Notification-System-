@@ -1,0 +1,79 @@
+<div class="portal-container">
+  <div class="top-bar">
+    <h2>Flight Notification Portal</h2>
+    <div>
+      <button (click)="goToSentLog()">View Sent Log</button>
+      <button (click)="logout()">Log Out</button>
+    </div>
+  </div>
+
+  <form (ngSubmit)="onSend()">
+    <fieldset>
+      <legend>Flight Details</legend>
+
+      <label>Flight Number</label>
+      <input type="text" [(ngModel)]="formData.flight_number" name="flight_number" required>
+
+      <label>Flight Class</label>
+      <input type="text" [(ngModel)]="formData.flight_class" name="flight_class">
+
+      <label>Aircraft Type</label>
+      <input type="text" [(ngModel)]="formData.aircraft_type" name="aircraft_type">
+
+      <label>Tier</label>
+      <input type="text" [(ngModel)]="formData.tier" name="tier">
+
+      <label>Boarding Group</label>
+      <input type="text" [(ngModel)]="formData.boarding_group" name="boarding_group">
+
+      <label>Boarding Time</label>
+      <input type="text" [(ngModel)]="formData.boarding_time" name="boarding_time" placeholder="e.g. 14:30">
+
+      <label>Departure Time</label>
+      <input type="text" [(ngModel)]="formData.departure_time" name="departure_time" placeholder="e.g. 15:00">
+
+      <label>Gate</label>
+      <input type="text" [(ngModel)]="formData.gate" name="gate">
+
+      <label>Seat Number</label>
+      <input type="text" [(ngModel)]="formData.seat_number" name="seat_number">
+    </fieldset>
+
+    <fieldset>
+      <legend>Message</legend>
+      <textarea [(ngModel)]="formData.message" name="message" rows="4" required></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>Recipients</legend>
+
+      <label class="send-all">
+        <input type="checkbox" [(ngModel)]="sendToAll" name="sendToAll">
+        Send to all customers
+      </label>
+
+      <div class="customer-list">
+        @for (customer of customers; track customer.id) {
+          <label class="customer-item">
+            <input
+              type="checkbox"
+              [disabled]="sendToAll"
+              (change)="toggleCustomer(customer.id, $event.target.checked)">
+            {{ customer.first_name }} {{ customer.last_name }} ({{ customer.email }})
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <button type="submit" [disabled]="sending">
+      {{ sending ? 'Sending...' : 'Send Notification' }}
+    </button>
+
+    @if (successMessage) {
+      <p class="success">{{ successMessage }}</p>
+    }
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+  </form>
+</div>
