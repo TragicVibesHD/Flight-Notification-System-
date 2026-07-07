@@ -1,0 +1,6 @@
+flight_number,flight_class,aircraft_type,tier,boarding_group,boarding_time,departure_time,gate,seat_number
+BA287,Economy,Boeing 777,Standard,Group 3,13:45,14:30,A12,24C
+DL118,Business,Airbus A350,Priority,Group 1,09:15,10:00,B7,3A
+EK203,First,Airbus A380,VIP,Group 1,22:00,23:15,C22,1A
+SQ321,Economy,Boeing 787,Standard,Group 4,06:30,07:10,D5,31F
+AF076,Premium Economy,Airbus A330,Priority,Group 2,17:20,18:05,E14,15D
