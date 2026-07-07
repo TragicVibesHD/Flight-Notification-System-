@@ -1,17 +1,22 @@
-<div class="login-container">
-  <form (ngSubmit)="onSubmit()">
-    <h2>Admin Login</h2>
+<app-top-bar />
 
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" [(ngModel)]="username" required>
+<div class="login-hero">
+  <div class="login-card">
+    <h2>Flight Notifications System</h2>
+    <p class="subtitle">Please enter your username and password to login.</p>
 
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" [(ngModel)]="password" required>
+    <form (ngSubmit)="onSubmit()">
+      <label for="username">Username *</label>
+      <input type="text" id="username" name="username" [(ngModel)]="username" required>
 
-    <button type="submit">Log In</button>
+      <label for="password">Password *</label>
+      <input type="password" id="password" name="password" [(ngModel)]="password" required>
 
-    @if (errorMessage) {
-      <p class="error">{{ errorMessage }}</p>
-    }
-  </form>
+      <button type="submit">Login</button>
+
+      @if (errorMessage) {
+        <p class="error">{{ errorMessage }}</p>
+      }
+    </form>
+  </div>
 </div>
