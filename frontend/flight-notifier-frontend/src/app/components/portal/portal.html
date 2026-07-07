@@ -37,15 +37,29 @@
         Send to all customers
       </label>
 
+      <label>Filter by flight</label>
+      <select (change)="onFilterChange($event)">
+        <option value="">-- All flights --</option>
+        @for (flight of flights(); track flight.id) {
+          <option [value]="flight.id">{{ flight.flight_number }}</option>
+        }
+      </select>
+
       <div class="customer-list">
-        @for (customer of customers(); track customer.id) {
+        @for (customer of filteredCustomers(); track customer.id) {
           <label class="customer-item">
             <input
               type="checkbox"
               [disabled]="sendToAll"
               (change)="toggleCustomer(customer.id, $event.target.checked)">
             {{ customer.first_name }} {{ customer.last_name }} ({{ customer.email }})
+            @if (customer.flight_number) {
+              <span class="flight-tag">{{ customer.flight_number }}</span>
+            }
           </label>
+        }
+        @if (filteredCustomers().length === 0) {
+          <p class="no-results">No customers found for this flight.</p>
         }
       </div>
     </fieldset>

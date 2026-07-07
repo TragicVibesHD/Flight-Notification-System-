@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Api, Customer, Flight } from '../../services/api';
@@ -23,6 +23,15 @@ export class Portal implements OnInit {
   sendToAll = false;
   message = '';
 
+  filterFlightId = signal<number | null>(null);
+  filteredCustomers = computed(() => {
+    const fid = this.filterFlightId();
+    if (fid === null) {
+      return this.customers();
+    }
+    return this.customers().filter(c => c.flight_id === fid);
+  });
+
   sending = signal(false);
   successMessage = signal('');
   errorMessage = signal('');
@@ -37,6 +46,11 @@ export class Portal implements OnInit {
       next: (flights) => this.flights.set(flights),
       error: () => this.errorMessage.set('Could not load flight list.')
     });
+  }
+
+  onFilterChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.filterFlightId.set(value === '' ? null : Number(value));
   }
 
   toggleCustomer(id: number, checked: boolean): void {

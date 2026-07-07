@@ -12,6 +12,8 @@ export interface Customer {
   email: string;
   phone_number: string;
   passport_number: string;
+  flight_id: number | null;
+  flight_number: string | null;
 }
 
 export interface Flight {
