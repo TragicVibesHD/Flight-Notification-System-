@@ -4,9 +4,11 @@ from datetime import datetime
 
 from .user import create_user
 from .customer import create_customer
+from .flight import create_flight
 from App.database import db
 
 CUSTOMERS_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'customers.txt')
+FLIGHTS_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'flights.txt')
 
 
 def initialize():
@@ -14,6 +16,7 @@ def initialize():
     db.create_all()
     create_user('bob', 'bobpass')
     seed_customers_from_file()
+    seed_flights_from_file()
 
 
 def seed_customers_from_file():
@@ -37,3 +40,27 @@ def seed_customers_from_file():
                 )
             except (KeyError, ValueError) as e:
                 print(f"Skipping invalid customer row {row}: {e}")
+
+
+def seed_flights_from_file():
+    if not os.path.exists(FLIGHTS_FILE):
+        print(f"Warning: flight seed file not found at {FLIGHTS_FILE}")
+        return
+
+    with open(FLIGHTS_FILE, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            try:
+                create_flight(
+                    flight_number=row['flight_number'].strip(),
+                    flight_class=row['flight_class'].strip(),
+                    aircraft_type=row['aircraft_type'].strip(),
+                    tier=row['tier'].strip(),
+                    boarding_group=row['boarding_group'].strip(),
+                    boarding_time=row['boarding_time'].strip(),
+                    departure_time=row['departure_time'].strip(),
+                    gate=row['gate'].strip(),
+                    seat_number=row['seat_number'].strip()
+                )
+            except KeyError as e:
+                print(f"Skipping invalid flight row {row}: {e}")
