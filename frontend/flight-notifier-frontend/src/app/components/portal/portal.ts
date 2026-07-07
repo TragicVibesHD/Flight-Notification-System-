@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Api, Customer, Flight } from '../../services/api';
@@ -15,26 +15,26 @@ export class Portal implements OnInit {
   private auth = inject(Auth);
   private router = inject(Router);
 
-  customers: Customer[] = [];
-  flights: Flight[] = [];
+  customers = signal<Customer[]>([]);
+  flights = signal<Flight[]>([]);
   selectedCustomerIds: number[] = [];
   selectedFlightId: number | null = null;
   sendToAll = false;
   message = '';
 
-  sending = false;
-  successMessage = '';
-  errorMessage = '';
+  sending = signal(false);
+  successMessage = signal('');
+  errorMessage = signal('');
 
   ngOnInit(): void {
     this.api.getCustomers().subscribe({
-      next: (customers) => (this.customers = customers),
-      error: () => (this.errorMessage = 'Could not load customer list.')
+      next: (customers) => this.customers.set(customers),
+      error: () => this.errorMessage.set('Could not load customer list.')
     });
 
     this.api.getFlights().subscribe({
-      next: (flights) => (this.flights = flights),
-      error: () => (this.errorMessage = 'Could not load flight list.')
+      next: (flights) => this.flights.set(flights),
+      error: () => this.errorMessage.set('Could not load flight list.')
     });
   }
 
@@ -47,20 +47,20 @@ export class Portal implements OnInit {
   }
 
   onSend(): void {
-    this.successMessage = '';
-    this.errorMessage = '';
+    this.successMessage.set('');
+    this.errorMessage.set('');
 
     if (!this.selectedFlightId) {
-      this.errorMessage = 'Select a flight.';
+      this.errorMessage.set('Select a flight.');
       return;
     }
 
     if (!this.sendToAll && this.selectedCustomerIds.length === 0) {
-      this.errorMessage = 'Select at least one recipient, or choose "Send to all".';
+      this.errorMessage.set('Select at least one recipient, or choose "Send to all".');
       return;
     }
 
-    this.sending = true;
+    this.sending.set(true);
 
     this.api.sendNotification({
       flight_id: this.selectedFlightId,
@@ -69,15 +69,15 @@ export class Portal implements OnInit {
       send_to_all: this.sendToAll
     }).subscribe({
       next: () => {
-        this.sending = false;
-        this.successMessage = 'Notification sent!';
+        this.sending.set(false);
+        this.successMessage.set('Notification sent!');
         this.selectedCustomerIds = [];
         this.sendToAll = false;
         this.message = '';
       },
       error: () => {
-        this.sending = false;
-        this.errorMessage = 'Failed to send notification.';
+        this.sending.set(false);
+        this.errorMessage.set('Failed to send notification.');
       }
     });
   }

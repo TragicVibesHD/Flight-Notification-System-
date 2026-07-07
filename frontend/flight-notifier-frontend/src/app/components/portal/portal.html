@@ -14,7 +14,7 @@
       <label>Select Flight</label>
       <select [(ngModel)]="selectedFlightId" name="selectedFlightId" required>
         <option [ngValue]="null" disabled>-- Choose a flight --</option>
-        @for (flight of flights; track flight.id) {
+        @for (flight of flights(); track flight.id) {
           <option [ngValue]="flight.id">
             {{ flight.flight_number }} — Gate {{ flight.gate }} — Departs {{ flight.departure_time }}
           </option>
@@ -36,7 +36,7 @@
       </label>
 
       <div class="customer-list">
-        @for (customer of customers; track customer.id) {
+        @for (customer of customers(); track customer.id) {
           <label class="customer-item">
             <input
               type="checkbox"
@@ -48,15 +48,15 @@
       </div>
     </fieldset>
 
-    <button type="submit" [disabled]="sending">
-      {{ sending ? 'Sending...' : 'Send Notification' }}
+    <button type="submit" [disabled]="sending()">
+      {{ sending() ? 'Sending...' : 'Send Notification' }}
     </button>
 
-    @if (successMessage) {
-      <p class="success">{{ successMessage }}</p>
+    @if (successMessage()) {
+      <p class="success">{{ successMessage() }}</p>
     }
-    @if (errorMessage) {
-      <p class="error">{{ errorMessage }}</p>
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
     }
   </form>
 </div>
