@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Api, Customer } from '../../services/api';
+import { Api, Customer, Flight } from '../../services/api';
 import { Auth } from '../../services/auth';
 
 @Component({
@@ -16,21 +16,11 @@ export class Portal implements OnInit {
   private router = inject(Router);
 
   customers: Customer[] = [];
+  flights: Flight[] = [];
   selectedCustomerIds: number[] = [];
+  selectedFlightId: number | null = null;
   sendToAll = false;
-
-  formData = {
-    flight_number: '',
-    flight_class: '',
-    aircraft_type: '',
-    tier: '',
-    boarding_group: '',
-    boarding_time: '',
-    departure_time: '',
-    gate: '',
-    seat_number: '',
-    message: ''
-  };
+  message = '';
 
   sending = false;
   successMessage = '';
@@ -40,6 +30,11 @@ export class Portal implements OnInit {
     this.api.getCustomers().subscribe({
       next: (customers) => (this.customers = customers),
       error: () => (this.errorMessage = 'Could not load customer list.')
+    });
+
+    this.api.getFlights().subscribe({
+      next: (flights) => (this.flights = flights),
+      error: () => (this.errorMessage = 'Could not load flight list.')
     });
   }
 
@@ -55,6 +50,11 @@ export class Portal implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
 
+    if (!this.selectedFlightId) {
+      this.errorMessage = 'Select a flight.';
+      return;
+    }
+
     if (!this.sendToAll && this.selectedCustomerIds.length === 0) {
       this.errorMessage = 'Select at least one recipient, or choose "Send to all".';
       return;
@@ -63,7 +63,8 @@ export class Portal implements OnInit {
     this.sending = true;
 
     this.api.sendNotification({
-      ...this.formData,
+      flight_id: this.selectedFlightId,
+      message: this.message,
       customer_ids: this.sendToAll ? undefined : this.selectedCustomerIds,
       send_to_all: this.sendToAll
     }).subscribe({
@@ -72,6 +73,7 @@ export class Portal implements OnInit {
         this.successMessage = 'Notification sent!';
         this.selectedCustomerIds = [];
         this.sendToAll = false;
+        this.message = '';
       },
       error: () => {
         this.sending = false;
