@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: flightadmin
+      POSTGRES_PASSWORD: flightpass
+      POSTGRES_DB: flight_notifications
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flightadmin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: .Dockerfile
+    environment:
+      FLASK_SQLALCHEMY_DATABASE_URI: postgresql://flightadmin:flightpass@db:5432/flight_notifications
+      FLASK_SECRET_KEY: change-this-secret-key
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend/flight-notifier-frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+
+volumes:
+  db_data:
