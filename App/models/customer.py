@@ -9,8 +9,12 @@ class Customer(db.Model):
     email = db.Column(db.String(120), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
     passport_number = db.Column(db.String(20), nullable=False)
+    flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'), nullable=True)
 
-    def __init__(self, first_name, last_name, date_of_birth, nationality, email, phone_number, passport_number):
+    flight = db.relationship('Flight', lazy='subquery')
+
+    def __init__(self, first_name, last_name, date_of_birth, nationality, email,
+                 phone_number, passport_number, flight_id=None):
         self.first_name = first_name
         self.last_name = last_name
         self.date_of_birth = date_of_birth
@@ -18,6 +22,7 @@ class Customer(db.Model):
         self.email = email
         self.phone_number = phone_number
         self.passport_number = passport_number
+        self.flight_id = flight_id
 
     def get_json(self):
         return {
@@ -28,5 +33,7 @@ class Customer(db.Model):
             'nationality': self.nationality,
             'email': self.email,
             'phone_number': self.phone_number,
-            'passport_number': self.passport_number
+            'passport_number': self.passport_number,
+            'flight_id': self.flight_id,
+            'flight_number': self.flight.flight_number if self.flight else None
         }
