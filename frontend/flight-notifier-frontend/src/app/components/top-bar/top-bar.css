@@ -1,0 +1,26 @@
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-white);
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.logo {
+  height: 36px;
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-icon {
+  font-size: 18px;
+  color: var(--color-primary);
+}
