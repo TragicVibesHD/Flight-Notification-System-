@@ -1,22 +1,10 @@
 from App.models import Notification, Customer
 from App.database import db
 
-def send_notification(flight_number, message, flight_class=None, aircraft_type=None,
-                       tier=None, boarding_group=None, boarding_time=None,
-                       departure_time=None, gate=None, seat_number=None,
-                       customer_ids=None, send_to_all=False):
-
+def send_notification(flight_id, message, customer_ids=None, send_to_all=False):
     notification = Notification(
-        flight_number=flight_number,
+        flight_id=flight_id,
         message=message,
-        flight_class=flight_class,
-        aircraft_type=aircraft_type,
-        tier=tier,
-        boarding_group=boarding_group,
-        boarding_time=boarding_time,
-        departure_time=departure_time,
-        gate=gate,
-        seat_number=seat_number,
         sent_to_all=send_to_all
     )
 
