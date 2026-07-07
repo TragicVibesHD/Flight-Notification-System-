@@ -1,11 +1,8 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /app
-
-# Install system dependencies required for mysqlclient
-RUN apt-get update && apt-get install -y default-libmysqlclient-dev gcc pkg-config && rm -rf /var/lib/apt/lists/*
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -14,8 +11,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 8080 available to the world outside this container
-EXPOSE 8085
+EXPOSE 8080
 
-
-# Run gunicorn when the container launches
-CMD ["gunicorn", "-c", "gunicorn_config.py", "wsgi:app"]
+# Seed the database, then run gunicorn when the container launches
+CMD ["sh", "-c", "flask init && gunicorn -c gunicorn_config.py wsgi:app"]
