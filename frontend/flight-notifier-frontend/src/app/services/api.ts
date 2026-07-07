@@ -14,7 +14,7 @@ export interface Customer {
   passport_number: string;
 }
 
-export interface NotificationRecord {
+export interface Flight {
   id: number;
   flight_number: string;
   flight_class: string | null;
@@ -25,6 +25,11 @@ export interface NotificationRecord {
   departure_time: string | null;
   gate: string | null;
   seat_number: string | null;
+}
+
+export interface NotificationRecord {
+  id: number;
+  flight: Flight | null;
   message: string;
   sent_to_all: boolean;
   timestamp: string;
@@ -32,16 +37,8 @@ export interface NotificationRecord {
 }
 
 export interface SendNotificationPayload {
-  flight_number: string;
+  flight_id: number;
   message: string;
-  flight_class?: string;
-  aircraft_type?: string;
-  tier?: string;
-  boarding_group?: string;
-  boarding_time?: string;
-  departure_time?: string;
-  gate?: string;
-  seat_number?: string;
   customer_ids?: number[];
   send_to_all?: boolean;
 }
@@ -60,6 +57,12 @@ export class Api {
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(`${this.apiUrl}/customers`, {
+      headers: this.authHeaders()
+    });
+  }
+
+  getFlights(): Observable<Flight[]> {
+    return this.http.get<Flight[]>(`${this.apiUrl}/flights`, {
       headers: this.authHeaders()
     });
   }
