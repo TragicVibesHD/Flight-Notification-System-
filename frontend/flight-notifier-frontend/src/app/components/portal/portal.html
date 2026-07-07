@@ -9,39 +9,22 @@
 
   <form (ngSubmit)="onSend()">
     <fieldset>
-      <legend>Flight Details</legend>
+      <legend>Flight</legend>
 
-      <label>Flight Number</label>
-      <input type="text" [(ngModel)]="formData.flight_number" name="flight_number" required>
-
-      <label>Flight Class</label>
-      <input type="text" [(ngModel)]="formData.flight_class" name="flight_class">
-
-      <label>Aircraft Type</label>
-      <input type="text" [(ngModel)]="formData.aircraft_type" name="aircraft_type">
-
-      <label>Tier</label>
-      <input type="text" [(ngModel)]="formData.tier" name="tier">
-
-      <label>Boarding Group</label>
-      <input type="text" [(ngModel)]="formData.boarding_group" name="boarding_group">
-
-      <label>Boarding Time</label>
-      <input type="text" [(ngModel)]="formData.boarding_time" name="boarding_time" placeholder="e.g. 14:30">
-
-      <label>Departure Time</label>
-      <input type="text" [(ngModel)]="formData.departure_time" name="departure_time" placeholder="e.g. 15:00">
-
-      <label>Gate</label>
-      <input type="text" [(ngModel)]="formData.gate" name="gate">
-
-      <label>Seat Number</label>
-      <input type="text" [(ngModel)]="formData.seat_number" name="seat_number">
+      <label>Select Flight</label>
+      <select [(ngModel)]="selectedFlightId" name="selectedFlightId" required>
+        <option [ngValue]="null" disabled>-- Choose a flight --</option>
+        @for (flight of flights; track flight.id) {
+          <option [ngValue]="flight.id">
+            {{ flight.flight_number }} — Gate {{ flight.gate }} — Departs {{ flight.departure_time }}
+          </option>
+        }
+      </select>
     </fieldset>
 
     <fieldset>
       <legend>Message</legend>
-      <textarea [(ngModel)]="formData.message" name="message" rows="4" required></textarea>
+      <textarea [(ngModel)]="message" name="message" rows="4" required></textarea>
     </fieldset>
 
     <fieldset>
