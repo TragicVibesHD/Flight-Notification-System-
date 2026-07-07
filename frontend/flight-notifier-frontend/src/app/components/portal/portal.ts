@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Api, Customer, Flight } from '../../services/api';
 import { Auth } from '../../services/auth';
+import { TopBar } from '../top-bar/top-bar';
 
 @Component({
   selector: 'app-portal',
-  imports: [FormsModule],
+  imports: [FormsModule, TopBar],
   templateUrl: './portal.html',
   styleUrl: './portal.css'
 })
