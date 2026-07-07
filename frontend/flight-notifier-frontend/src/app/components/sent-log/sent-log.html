@@ -1,0 +1,43 @@
+<div class="sent-log-container">
+  <div class="top-bar">
+    <h2>Sent Notifications</h2>
+    <button (click)="goToPortal()">Back to Portal</button>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (notifications().length === 0 && !errorMessage()) {
+    <p>No notifications sent yet.</p>
+  }
+
+  @for (notification of notifications(); track notification.id) {
+    <div class="notification-card">
+      <div class="notification-header">
+        <strong>Flight {{ notification.flight?.flight_number }}</strong>
+        <span class="timestamp">{{ notification.timestamp | date:'medium' }}</span>
+      </div>
+
+      <p class="message">{{ notification.message }}</p>
+
+      <div class="flight-details">
+        <span>Gate {{ notification.flight?.gate }}</span> ·
+        <span>Departs {{ notification.flight?.departure_time }}</span> ·
+        <span>Seat {{ notification.flight?.seat_number }}</span>
+      </div>
+
+      <div class="recipients">
+        @if (notification.sent_to_all) {
+          <em>Sent to: All Customers</em>
+        } @else {
+          <em>Sent to: 
+            @for (recipient of notification.recipients; track recipient.id; let last = $last) {
+              {{ recipient.first_name }} {{ recipient.last_name }}{{ last ? '' : ', ' }}
+            }
+          </em>
+        }
+      </div>
+    </div>
+  }
+</div>
