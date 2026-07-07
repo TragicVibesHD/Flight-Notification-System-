@@ -1,5 +1,5 @@
 import { Service, signal, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
 interface LoginResponse {
@@ -13,12 +13,20 @@ export class Auth {
   private tokenKey = 'access_token';
 
   isLoggedIn = signal<boolean>(this.hasToken());
+  currentUsername = signal<string>('');
+
+  constructor() {
+    if (this.hasToken()) {
+      this.fetchIdentity();
+    }
+  }
 
   login(username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap(response => {
         localStorage.setItem(this.tokenKey, response.access_token);
         this.isLoggedIn.set(true);
+        this.fetchIdentity();
       })
     );
   }
@@ -26,10 +34,21 @@ export class Auth {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     this.isLoggedIn.set(false);
+    this.currentUsername.set('');
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  private fetchIdentity(): void {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.getToken()}` });
+    this.http.get<{ message: string }>(`${this.apiUrl}/identify`, { headers }).subscribe({
+      next: (res) => {
+        const match = res.message.match(/username:\s*([^,]+)/);
+        this.currentUsername.set(match ? match[1].trim() : '');
+      }
+    });
   }
 
   private hasToken(): boolean {
