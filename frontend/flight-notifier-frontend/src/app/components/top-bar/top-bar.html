@@ -1,7 +1,9 @@
 <header class="top-bar">
   <img src="logo.png" alt="Caribbean Airlines" class="logo">
-  <div class="user-greeting">
-    <span class="user-icon">●</span>
-    Hi, {{ auth.currentUsername() }}
-  </div>
+  @if (auth.currentUsername()) {
+    <div class="user-greeting">
+      <span class="user-icon">●</span>
+      Hi, {{ auth.currentUsername() }}
+    </div>
+  }
 </header>
