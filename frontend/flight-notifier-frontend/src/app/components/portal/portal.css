@@ -1,6 +1,149 @@
+.portal-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
 .action-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.action-bar h2 {
+  font-size: 20px;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.action-bar div {
+  display: flex;
+  gap: 8px;
+}
+
+.action-bar button {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: background-color 0.15s;
+}
+
+.action-bar button:hover {
+  background-color: var(--color-bg);
+}
+
+fieldset {
+  border: none;
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 0 0 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+legend {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  padding: 0 4px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.send-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.send-all input {
+  width: auto;
+  margin: 0;
+}
+
+.customer-list {
+  margin-top: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  border-top: 1px solid var(--color-border);
+  padding-top: 10px;
+}
+
+.customer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+.customer-item input {
+  width: auto;
+  margin: 0;
+}
+
+button[type="submit"] {
+  padding: 12px 28px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+button[type="submit"]:disabled {
+  background-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+.success {
+  color: #2e7d32;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.error {
+  color: #c62828;
+  font-weight: 600;
+  margin-top: 12px;
 }
