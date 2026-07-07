@@ -11,16 +11,8 @@ def send_notification_action():
     data = request.json
 
     notification = send_notification(
-        flight_number=data.get('flight_number'),
+        flight_id=data.get('flight_id'),
         message=data.get('message'),
-        flight_class=data.get('flight_class'),
-        aircraft_type=data.get('aircraft_type'),
-        tier=data.get('tier'),
-        boarding_group=data.get('boarding_group'),
-        boarding_time=data.get('boarding_time'),
-        departure_time=data.get('departure_time'),
-        gate=data.get('gate'),
-        seat_number=data.get('seat_number'),
         customer_ids=data.get('customer_ids'),
         send_to_all=data.get('send_to_all', False)
     )
