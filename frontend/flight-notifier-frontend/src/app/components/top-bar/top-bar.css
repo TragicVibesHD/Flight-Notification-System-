@@ -5,10 +5,43 @@
   background-color: var(--color-white);
   padding: 16px 32px;
   border-bottom: 1px solid var(--color-border);
+  gap: 24px;
 }
 
 .logo {
   height: 36px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.nav-links a {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.nav-links a:hover {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.nav-links a.active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .user-greeting {
@@ -18,9 +51,26 @@
   color: var(--color-primary);
   font-weight: 600;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .user-icon {
   font-size: 18px;
   color: var(--color-primary);
+}
+
+.logout-button {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: background-color 0.15s;
+}
+
+.logout-button:hover {
+  background-color: var(--color-bg);
 }

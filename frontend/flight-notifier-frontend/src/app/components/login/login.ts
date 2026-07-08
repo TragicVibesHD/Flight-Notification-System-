@@ -22,7 +22,7 @@ export class Login {
     this.errorMessage = '';
     this.auth.login(this.username, this.password).subscribe({
       next: () => {
-        this.router.navigate(['/portal']);
+        this.router.navigate(['/flight-search']);
       },
       error: () => {
         this.errorMessage = 'Invalid username or password.';

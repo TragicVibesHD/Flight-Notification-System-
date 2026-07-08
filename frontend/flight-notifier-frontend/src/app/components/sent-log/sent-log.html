@@ -2,7 +2,6 @@
 <div class="sent-log-container">
   <div class="top-bar">
     <h2>Sent Notifications</h2>
-    <button (click)="goToPortal()">Back to Portal</button>
   </div>
 
   @if (errorMessage()) {
@@ -16,17 +15,19 @@
   @for (notification of notifications(); track notification.id) {
     <div class="notification-card">
       <div class="notification-header">
-        <strong>Flight {{ notification.flight?.flight_number }}</strong>
+        <strong>{{ notification.flight ? 'Flight ' + notification.flight.flight_number : 'All Flights' }}</strong>
         <span class="timestamp">{{ notification.timestamp | date:'medium' }}</span>
       </div>
 
       <p class="message">{{ notification.message }}</p>
 
-      <div class="flight-details">
-        <span>Gate {{ notification.flight?.gate }}</span> ·
-        <span>Departs {{ notification.flight?.departure_time }}</span> ·
-        <span>Seat {{ notification.flight?.seat_number }}</span>
-      </div>
+      @if (notification.flight) {
+        <div class="flight-details">
+          <span>{{ notification.flight.origin || '?' }} → {{ notification.flight.destination || '?' }}</span> ·
+          <span>Gate {{ notification.flight.gate }}</span> ·
+          <span>Departs {{ notification.flight.departure_time }}</span>
+        </div>
+      }
 
       <div class="recipients">
         @if (notification.sent_to_all) {

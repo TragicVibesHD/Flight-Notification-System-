@@ -3,6 +3,8 @@ from App.database import db
 class Flight(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     flight_number = db.Column(db.String(20), nullable=False)
+    origin = db.Column(db.String(80), nullable=True)
+    destination = db.Column(db.String(80), nullable=True)
     flight_class = db.Column(db.String(50), nullable=True)
     aircraft_type = db.Column(db.String(80), nullable=True)
     tier = db.Column(db.String(50), nullable=True)
@@ -12,10 +14,12 @@ class Flight(db.Model):
     gate = db.Column(db.String(20), nullable=True)
     seat_number = db.Column(db.String(10), nullable=True)
 
-    def __init__(self, flight_number, flight_class=None, aircraft_type=None,
+    def __init__(self, flight_number, origin=None, destination=None, flight_class=None, aircraft_type=None,
                  tier=None, boarding_group=None, boarding_time=None,
                  departure_time=None, gate=None, seat_number=None):
         self.flight_number = flight_number
+        self.origin = origin
+        self.destination = destination
         self.flight_class = flight_class
         self.aircraft_type = aircraft_type
         self.tier = tier
@@ -29,6 +33,8 @@ class Flight(db.Model):
         return {
             'id': self.id,
             'flight_number': self.flight_number,
+            'origin': self.origin,
+            'destination': self.destination,
             'flight_class': self.flight_class,
             'aircraft_type': self.aircraft_type,
             'tier': self.tier,

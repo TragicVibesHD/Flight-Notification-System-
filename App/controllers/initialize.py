@@ -31,6 +31,8 @@ def seed_flights_from_file():
             try:
                 create_flight(
                     flight_number=row['flight_number'].strip(),
+                    origin=row['origin'].strip(),
+                    destination=row['destination'].strip(),
                     flight_class=row['flight_class'].strip(),
                     aircraft_type=row['aircraft_type'].strip(),
                     tier=row['tier'].strip(),

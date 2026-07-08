@@ -1,0 +1,25 @@
+<app-top-bar />
+
+<div class="flight-search-container">
+  <div class="search-card">
+    <h2>Flight Search</h2>
+    <p class="subtitle">Select a flight to view and message its passengers, or choose "All" to message any customer in the database.</p>
+
+    <label for="flight-select">Select Flight</label>
+    <select id="flight-select" [(ngModel)]="selectedValue" name="selectedValue">
+      <option value="" disabled>-- Choose a flight --</option>
+      <option value="all">All</option>
+      @for (flight of flights(); track flight.id) {
+        <option [value]="flight.id">
+          {{ flight.flight_number }} — {{ flight.origin || '?' }} → {{ flight.destination || '?' }}
+        </option>
+      }
+    </select>
+
+    <button (click)="onSelectFlight()" [disabled]="!selectedValue">Select Flight</button>
+
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+  </div>
+</div>

@@ -19,6 +19,8 @@ export interface Customer {
 export interface Flight {
   id: number;
   flight_number: string;
+  origin: string | null;
+  destination: string | null;
   flight_class: string | null;
   aircraft_type: string | null;
   tier: string | null;
@@ -39,7 +41,7 @@ export interface NotificationRecord {
 }
 
 export interface SendNotificationPayload {
-  flight_id: number;
+  flight_id?: number | null;
   message: string;
   customer_ids?: number[];
   send_to_all?: boolean;
