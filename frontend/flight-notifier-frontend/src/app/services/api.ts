@@ -19,6 +19,7 @@ export interface Customer {
 export interface Flight {
   id: number;
   flight_number: string;
+  flight_date: string | null;
   origin: string | null;
   destination: string | null;
   flight_class: string | null;

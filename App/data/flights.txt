@@ -1,6 +1,6 @@
-flight_number,origin,destination,flight_class,aircraft_type,tier,boarding_group,boarding_time,departure_time,gate,seat_number
-BA287,London Heathrow (LHR),New York JFK (JFK),Economy,Boeing 777,Standard,Group 3,13:45,14:30,A12,24C
-DL118,Atlanta (ATL),Los Angeles (LAX),Business,Airbus A350,Priority,Group 1,09:15,10:00,B7,3A
-EK203,Dubai (DXB),London Heathrow (LHR),First,Airbus A380,VIP,Group 1,22:00,23:15,C22,1A
-SQ321,Singapore (SIN),Sydney (SYD),Economy,Boeing 787,Standard,Group 4,06:30,07:10,D5,31F
-AF076,Paris CDG (CDG),Miami (MIA),Premium Economy,Airbus A330,Priority,Group 2,17:20,18:05,E14,15D
+flight_number,flight_date,origin,destination,flight_class,aircraft_type,tier,boarding_group,boarding_time,departure_time,gate,seat_number
+BA287,2026-07-10,London Heathrow (LHR),New York JFK (JFK),Economy,Boeing 777,Standard,Group 3,13:45,14:30,A12,24C
+DL118,2026-07-10,Atlanta (ATL),Los Angeles (LAX),Business,Airbus A350,Priority,Group 1,09:15,10:00,B7,3A
+EK203,2026-07-11,Dubai (DXB),London Heathrow (LHR),First,Airbus A380,VIP,Group 1,22:00,23:15,C22,1A
+SQ321,2026-07-12,Singapore (SIN),Sydney (SYD),Economy,Boeing 787,Standard,Group 4,06:30,07:10,D5,31F
+AF076,2026-07-12,Paris CDG (CDG),Miami (MIA),Premium Economy,Airbus A330,Priority,Group 2,17:20,18:05,E14,15D

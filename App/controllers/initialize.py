@@ -29,8 +29,11 @@ def seed_flights_from_file():
         reader = csv.DictReader(f)
         for row in reader:
             try:
+                flight_date = datetime.strptime(row['flight_date'].strip(), '%Y-%m-%d').date()
+
                 create_flight(
                     flight_number=row['flight_number'].strip(),
+                    flight_date=flight_date,
                     origin=row['origin'].strip(),
                     destination=row['destination'].strip(),
                     flight_class=row['flight_class'].strip(),
@@ -42,7 +45,7 @@ def seed_flights_from_file():
                     gate=row['gate'].strip(),
                     seat_number=row['seat_number'].strip()
                 )
-            except KeyError as e:
+            except (KeyError, ValueError) as e:
                 print(f"Skipping invalid flight row {row}: {e}")
 
 

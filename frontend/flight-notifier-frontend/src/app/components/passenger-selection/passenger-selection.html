@@ -6,10 +6,15 @@
       @if (isAllScope()) {
         <h2>All Customers</h2>
         <p class="subtitle">Select customers from across the entire database.</p>
+      } @else if (flightIds().length === 1) {
+        <h2>Passengers — Flight {{ selectedFlights()[0]?.flight_number ?? flightIds()[0] }}</h2>
+        @if (selectedFlights()[0]) {
+          <p class="subtitle">{{ selectedFlights()[0].origin || '?' }} → {{ selectedFlights()[0].destination || '?' }}</p>
+        }
       } @else {
-        <h2>Passengers — Flight {{ flight()?.flight_number ?? flightId() }}</h2>
-        @if (flight()) {
-          <p class="subtitle">{{ flight()!.origin || '?' }} → {{ flight()!.destination || '?' }}</p>
+        <h2>Passengers — {{ flightIds().length }} Flights</h2>
+        @if (selectedFlights().length > 0) {
+          <p class="subtitle">{{ scopeLabel() }}</p>
         }
       }
     </div>
@@ -36,7 +41,7 @@
                 (change)="toggleSelectAll($any($event.target).checked)">
             </th>
             <th>Name</th>
-            @if (isAllScope()) {
+            @if (showFlightColumns()) {
               <th>Flight</th>
               <th>Origin</th>
               <th>Destination</th>
@@ -56,7 +61,7 @@
                   (change)="toggleCustomer(customer.id, $any($event.target).checked)">
               </td>
               <td>{{ customer.last_name }}/{{ customer.first_name }}</td>
-              @if (isAllScope()) {
+              @if (showFlightColumns()) {
                 <td>{{ customer.flight_number || '—' }}</td>
                 <td>{{ originFor(customer) }}</td>
                 <td>{{ destinationFor(customer) }}</td>
@@ -82,7 +87,7 @@
 @if (showComposeModal()) {
   <app-compose-message-modal
     [recipientCount]="selectedCount()"
-    [subtitle]="isAllScope() ? 'All Customers' : (flight()?.flight_number ?? '')"
+    [subtitle]="scopeLabel()"
     (closed)="closeCompose()"
     (sent)="onSendMessage($event)" />
 }

@@ -17,8 +17,7 @@ export class PassengerSelection implements OnInit {
   private router = inject(Router);
 
   isAllScope = signal(false);
-  flightId = signal<number | null>(null);
-  flight = signal<Flight | null>(null);
+  flightIds = signal<number[]>([]);
 
   allCustomers = signal<Customer[]>([]);
   allFlights = signal<Flight[]>([]);
@@ -29,6 +28,11 @@ export class PassengerSelection implements OnInit {
     }
     return map;
   });
+  selectedFlights = computed(() => {
+    const ids = new Set(this.flightIds());
+    return this.allFlights().filter(f => ids.has(f.id));
+  });
+
   selectedIds = signal<Set<number>>(new Set());
   globalSendToAll = signal(false);
 
@@ -40,12 +44,14 @@ export class PassengerSelection implements OnInit {
   errorMessage = signal('');
   loading = signal(true);
 
+  showFlightColumns = computed(() => this.isAllScope() || this.flightIds().length > 1);
+
   displayedCustomers = computed(() => {
     if (this.isAllScope()) {
       return this.allCustomers();
     }
-    const fid = this.flightId();
-    return this.allCustomers().filter(c => c.flight_id === fid);
+    const ids = new Set(this.flightIds());
+    return this.allCustomers().filter(c => c.flight_id !== null && ids.has(c.flight_id));
   });
 
   allSelected = computed(() => {
@@ -55,12 +61,26 @@ export class PassengerSelection implements OnInit {
 
   selectedCount = computed(() => this.selectedIds().size);
 
+  scopeLabel = computed(() => {
+    if (this.isAllScope()) {
+      return 'All Customers';
+    }
+    const flights = this.selectedFlights();
+    if (flights.length === 1) {
+      return flights[0].flight_number;
+    }
+    if (flights.length > 1) {
+      return `${flights.length} Flights (${flights.map(f => f.flight_number).join(', ')})`;
+    }
+    return '';
+  });
+
   ngOnInit(): void {
     const param = this.route.snapshot.paramMap.get('scope');
     if (param === 'all') {
       this.isAllScope.set(true);
     } else {
-      this.flightId.set(Number(param));
+      this.flightIds.set((param ?? '').split(',').map(Number).filter(n => !isNaN(n) && n > 0));
     }
 
     this.api.getCustomers().subscribe({
@@ -75,13 +95,7 @@ export class PassengerSelection implements OnInit {
     });
 
     this.api.getFlights().subscribe({
-      next: (flights) => {
-        this.allFlights.set(flights);
-        if (!this.isAllScope()) {
-          const fid = this.flightId();
-          this.flight.set(flights.find(f => f.id === fid) ?? null);
-        }
-      }
+      next: (flights) => this.allFlights.set(flights)
     });
   }
 
@@ -145,9 +159,11 @@ export class PassengerSelection implements OnInit {
     this.sending.set(true);
 
     const useGlobalSendToAll = this.isAllScope() && this.globalSendToAll();
+    const ids = this.flightIds();
+    const singleFlightId = ids.length === 1 ? ids[0] : null;
 
     this.api.sendNotification({
-      flight_id: this.isAllScope() ? null : this.flightId(),
+      flight_id: this.isAllScope() ? null : singleFlightId,
       message,
       customer_ids: useGlobalSendToAll ? undefined : Array.from(this.selectedIds()),
       send_to_all: useGlobalSendToAll
