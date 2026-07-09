@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --color-primary: #e6007e;
+  --color-primary-dark: #c40069;
+  --color-white: #ffffff;
+  --color-bg: #f4f4f4;
+  --color-border: #e0e0e0;
+  --color-text: #222222;
+  --color-text-muted: #666666;
+  --color-success: #2e7d32;
+  --color-error: #c62828;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg);
+}

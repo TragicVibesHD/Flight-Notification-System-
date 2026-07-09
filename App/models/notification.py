@@ -9,7 +9,7 @@ notification_recipients = db.Table(
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'), nullable=False)
+    flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'), nullable=True)
     message = db.Column(db.Text, nullable=False)
     sent_to_all = db.Column(db.Boolean, default=False, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
@@ -17,7 +17,7 @@ class Notification(db.Model):
     flight = db.relationship('Flight', lazy='subquery')
     recipients = db.relationship('Customer', secondary=notification_recipients, lazy='subquery')
 
-    def __init__(self, flight_id, message, sent_to_all=False):
+    def __init__(self, message, flight_id=None, sent_to_all=False):
         self.flight_id = flight_id
         self.message = message
         self.sent_to_all = sent_to_all

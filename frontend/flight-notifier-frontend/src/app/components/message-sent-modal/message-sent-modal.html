@@ -1,0 +1,10 @@
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="success-icon">✓</div>
+    <h3>Message Sent!</h3>
+    <p class="modal-subtitle">
+      Your message was sent to {{ recipientCount() }} {{ recipientCount() === 1 ? 'passenger' : 'passengers' }}.
+    </p>
+    <button class="primary" (click)="onClose()">OK</button>
+  </div>
+</div>

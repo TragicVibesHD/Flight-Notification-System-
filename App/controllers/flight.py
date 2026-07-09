@@ -1,11 +1,14 @@
 from App.models import Flight
 from App.database import db
 
-def create_flight(flight_number, flight_class=None, aircraft_type=None, tier=None,
+def create_flight(flight_number, flight_date=None, origin=None, destination=None, flight_class=None, aircraft_type=None, tier=None,
                    boarding_group=None, boarding_time=None, departure_time=None,
                    gate=None, seat_number=None):
     flight = Flight(
         flight_number=flight_number,
+        flight_date=flight_date,
+        origin=origin,
+        destination=destination,
         flight_class=flight_class,
         aircraft_type=aircraft_type,
         tier=tier,

@@ -1,5 +1,5 @@
 .sent-log-container {
-  max-width: 720px;
+  max-width: 840px;
   margin: 0 auto;
   padding: 32px 20px;
 }
@@ -8,32 +8,41 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-bottom: 24px;
 }
 
 .top-bar h2 {
   font-size: 20px;
-  margin: 0;
+  margin: 0 0 4px;
   color: var(--color-text);
 }
 
-.top-bar button {
-  padding: 8px 16px;
+.top-bar p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.top-bar a {
+  padding: 10px 16px;
   border: 1px solid var(--color-border);
   background: var(--color-white);
   border-radius: 8px;
   font-size: 13px;
-  cursor: pointer;
+  font-weight: 700;
   color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.top-bar button:hover {
+.top-bar a:hover {
   background-color: var(--color-bg);
 }
 
 .notification-card {
   background: var(--color-white);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 20px;
   margin-bottom: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -43,6 +52,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-bottom: 8px;
 }
 
@@ -54,6 +64,7 @@
 .timestamp {
   color: var(--color-text-muted);
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .message {
@@ -74,5 +85,18 @@
 }
 
 .error {
-  color: #c62828;
+  color: var(--color-error);
+}
+
+@media (max-width: 640px) {
+  .top-bar,
+  .notification-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .top-bar a {
+    width: 100%;
+    text-align: center;
+  }
 }

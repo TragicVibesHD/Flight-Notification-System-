@@ -1,4 +1,4 @@
-import { Service, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Auth } from './auth';
@@ -19,6 +19,9 @@ export interface Customer {
 export interface Flight {
   id: number;
   flight_number: string;
+  flight_date: string | null;
+  origin: string | null;
+  destination: string | null;
   flight_class: string | null;
   aircraft_type: string | null;
   tier: string | null;
@@ -39,13 +42,13 @@ export interface NotificationRecord {
 }
 
 export interface SendNotificationPayload {
-  flight_id: number;
+  flight_id?: number | null;
   message: string;
   customer_ids?: number[];
   send_to_all?: boolean;
 }
 
-@Service()
+@Injectable({ providedIn: 'root' })
 export class Api {
   private http = inject(HttpClient);
   private auth = inject(Auth);

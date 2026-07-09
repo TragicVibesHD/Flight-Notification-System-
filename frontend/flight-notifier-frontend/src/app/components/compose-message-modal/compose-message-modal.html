@@ -1,0 +1,23 @@
+<div class="modal-backdrop" (click)="onCancel()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h3>Compose Message</h3>
+    <p class="modal-subtitle">
+      Sending to {{ recipientCount() }} {{ recipientCount() === 1 ? 'passenger' : 'passengers' }}
+      @if (subtitle()) {
+        — {{ subtitle() }}
+      }
+    </p>
+
+    <textarea
+      [(ngModel)]="message"
+      name="message"
+      rows="5"
+      placeholder="Type your message..."
+      autofocus></textarea>
+
+    <div class="modal-actions">
+      <button class="secondary" (click)="onCancel()">Cancel</button>
+      <button class="primary" (click)="onSend()" [disabled]="!message().trim()">Send</button>
+    </div>
+  </div>
+</div>

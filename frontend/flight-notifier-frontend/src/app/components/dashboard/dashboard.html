@@ -1,0 +1,136 @@
+<app-top-bar />
+
+<main class="dashboard-container">
+  <section class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Review flight and customer records from the database.</p>
+    </div>
+
+    <a class="history-button" routerLink="/notification-history">Notification History</a>
+  </section>
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="loading">Loading dashboard data...</p>
+  } @else {
+    <section class="summary-grid" aria-label="Database summary">
+      <div class="summary-card">
+        <span>Flights</span>
+        <strong>{{ flights().length }}</strong>
+      </div>
+      <div class="summary-card">
+        <span>Customers</span>
+        <strong>{{ customers().length }}</strong>
+      </div>
+      <div class="summary-card">
+        <span>Assigned Customers</span>
+        <strong>{{ assignedCustomers() }}</strong>
+      </div>
+      <div class="summary-card">
+        <span>Unassigned Customers</span>
+        <strong>{{ unassignedCustomers() }}</strong>
+      </div>
+    </section>
+
+    <section class="data-section">
+      <div class="section-heading">
+        <h2>Customer Data</h2>
+        <span>{{ customers().length }} records</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date of Birth</th>
+              <th>Nationality</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Passport</th>
+              <th>Flight</th>
+              <th>Route</th>
+              <th>Seat</th>
+              <th>Gate</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (customer of customers(); track customer.id) {
+              @let flight = flightFor(customer);
+              <tr>
+                <td>{{ customer.first_name }} {{ customer.last_name }}</td>
+                <td>{{ customer.date_of_birth || '-' }}</td>
+                <td>{{ customer.nationality || '-' }}</td>
+                <td>{{ customer.email || '-' }}</td>
+                <td>{{ customer.phone_number || '-' }}</td>
+                <td>{{ customer.passport_number || '-' }}</td>
+                <td>{{ customer.flight_number || '-' }}</td>
+                <td>{{ flight ? (flight.origin || '?') + ' to ' + (flight.destination || '?') : '-' }}</td>
+                <td>{{ flight?.seat_number || '-' }}</td>
+                <td>{{ flight?.gate || '-' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="10" class="empty-cell">No customer records found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="data-section">
+      <div class="section-heading">
+        <h2>Flight Data</h2>
+        <span>{{ flights().length }} records</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Flight</th>
+              <th>Date</th>
+              <th>Origin</th>
+              <th>Destination</th>
+              <th>Class</th>
+              <th>Aircraft</th>
+              <th>Tier</th>
+              <th>Boarding Group</th>
+              <th>Boarding Time</th>
+              <th>Departure</th>
+              <th>Gate</th>
+              <th>Seat</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (flight of flights(); track flight.id) {
+              <tr>
+                <td>{{ flight.flight_number }}</td>
+                <td>{{ flight.flight_date || '-' }}</td>
+                <td>{{ flight.origin || '-' }}</td>
+                <td>{{ flight.destination || '-' }}</td>
+                <td>{{ flight.flight_class || '-' }}</td>
+                <td>{{ flight.aircraft_type || '-' }}</td>
+                <td>{{ flight.tier || '-' }}</td>
+                <td>{{ flight.boarding_group || '-' }}</td>
+                <td>{{ flight.boarding_time || '-' }}</td>
+                <td>{{ flight.departure_time || '-' }}</td>
+                <td>{{ flight.gate || '-' }}</td>
+                <td>{{ flight.seat_number || '-' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="12" class="empty-cell">No flight records found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+</main>

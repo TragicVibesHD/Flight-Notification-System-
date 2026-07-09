@@ -1,10 +1,10 @@
 from App.models import Notification, Customer
 from App.database import db
 
-def send_notification(flight_id, message, customer_ids=None, send_to_all=False):
+def send_notification(message, flight_id=None, customer_ids=None, send_to_all=False):
     notification = Notification(
-        flight_id=flight_id,
         message=message,
+        flight_id=flight_id,
         sent_to_all=send_to_all
     )
 
