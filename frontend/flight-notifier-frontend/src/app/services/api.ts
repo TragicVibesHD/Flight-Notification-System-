@@ -1,4 +1,4 @@
-import { Service, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Auth } from './auth';
@@ -48,7 +48,7 @@ export interface SendNotificationPayload {
   send_to_all?: boolean;
 }
 
-@Service()
+@Injectable({ providedIn: 'root' })
 export class Api {
   private http = inject(HttpClient);
   private auth = inject(Auth);

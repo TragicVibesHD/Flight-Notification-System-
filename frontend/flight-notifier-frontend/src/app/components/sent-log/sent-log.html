@@ -1,7 +1,12 @@
 <app-top-bar />
+
 <div class="sent-log-container">
   <div class="top-bar">
-    <h2>Sent Notifications</h2>
+    <div>
+      <h2>Notification History</h2>
+      <p>Review messages that have already been sent.</p>
+    </div>
+    <a routerLink="/dashboard">Back to Dashboard</a>
   </div>
 
   @if (errorMessage()) {
@@ -23,7 +28,7 @@
 
       @if (notification.flight) {
         <div class="flight-details">
-          <span>{{ notification.flight.origin || '?' }} → {{ notification.flight.destination || '?' }}</span> ·
+          <span>{{ notification.flight.origin || '?' }} to {{ notification.flight.destination || '?' }}</span> ·
           <span>Gate {{ notification.flight.gate }}</span> ·
           <span>Departs {{ notification.flight.departure_time }}</span>
         </div>
@@ -33,7 +38,7 @@
         @if (notification.sent_to_all) {
           <em>Sent to: All Customers</em>
         } @else {
-          <em>Sent to: 
+          <em>Sent to:
             @for (recipient of notification.recipients; track recipient.id; let last = $last) {
               {{ recipient.first_name }} {{ recipient.last_name }}{{ last ? '' : ', ' }}
             }

@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Api, NotificationRecord } from '../../services/api';
 import { TopBar } from '../top-bar/top-bar';
 
 @Component({
   selector: 'app-sent-log',
-  imports: [CommonModule, TopBar],
+  imports: [CommonModule, RouterLink, TopBar],
   templateUrl: './sent-log.html',
   styleUrl: './sent-log.css'
 })
